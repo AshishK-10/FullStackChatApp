@@ -10,11 +10,10 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/api/chat', (req,res)=>{
-  console.log(req)
   res.json({chats})
 })
 
-app.get('/', (req, res)=>{
+app.get('/', (req, res)=>{ //nodemon : npm  run dev
   res.send("this is the server running successfully")
 })
 
