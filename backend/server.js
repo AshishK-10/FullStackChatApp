@@ -16,6 +16,10 @@ app.use(express.json()); // to accept the json data
 
 app.use('/api/user', userRoutes) // /api/user routes
 
+
+app.user(notfound)
+app.user(errorHandler)
+
 app.get('/api/chat', (req,res)=>{
   res.json({chats})
 })

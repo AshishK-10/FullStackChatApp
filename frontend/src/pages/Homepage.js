@@ -1,4 +1,5 @@
 import React from 'react'
+import './Homepage.css'
 import { Container, Box, Text, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import Login from '../components/Authentication/Login'
 import Signup from '../components/Authentication/Signup'
@@ -19,7 +20,7 @@ const Homepage = () => {
         <Text fontSize= '4xl' fontFamily={"Work sans"} color = "black">Talk-A-Tive</Text>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px" color = "black">
-        <Tabs variant='soft-rounded'>
+        <Tabs position="relative" zIndex="999" variant='soft-rounded'>
           <TabList mb="1em">
             <Tab width="50%">Login</Tab>
             <Tab width="50%">Signup</Tab>
@@ -34,8 +35,25 @@ const Homepage = () => {
           </TabPanels>
         </Tabs>
       </Box>
+      <Container>
+        <div className = "area">
+          <ul className="circles">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+          </ul>
+       </div>
+      </Container>
     </Container>
   )
 }
+
 
 export default Homepage
