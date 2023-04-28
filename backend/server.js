@@ -5,7 +5,7 @@ const cors = require('cors')
 const connectDb = require('./config/db')
 const colors = require('colors')
 const userRoutes = require('./routes/userRoutes')
-
+const {notFound, errorHandler} = require('./middleware/errorMiddleware')
 const app = express();
 dotenv.config();
 connectDb(); //connected db
@@ -17,8 +17,8 @@ app.use(express.json()); // to accept the json data
 app.use('/api/user', userRoutes) // /api/user routes
 
 
-app.user(notfound)
-app.user(errorHandler)
+app.use(notFound)
+app.use(errorHandler)
 
 app.get('/api/chat', (req,res)=>{
   res.json({chats})

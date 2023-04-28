@@ -57,6 +57,10 @@ const authUser = asyncHandler(async(req, res) => {
       token: generateToken(user._id),
     });
   }
+  else{
+    res.status(400);
+    throw new Error("Password or email is incorrect!");
+  }
 })
 
 module.exports = {registerUser, authUser};
