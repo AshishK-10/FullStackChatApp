@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler') // handles all the async related errors in express
-const User = require('../models/userModel') //user modal
+const User = require('../models/userModel') //user model
 const generateToken = require('../config/generateToken') // created a jwt token
 
 const registerUser = asyncHandler( async(req, res) => { // create the new user
@@ -63,4 +63,17 @@ const authUser = asyncHandler(async(req, res) => {
   }
 })
 
-module.exports = {registerUser, authUser};
+const allUsers = asyncHandler (async (req, res)=>{
+  const keyword = req.query.search ? {
+    $or: [ //creates query to fetch name or email starting with searched key
+      { name: { $regex: req.query.search, $options: "i"} },
+      { email: { $regex: req.query.search, $options: "i"} },
+    ]
+  }
+  : {};
+  // returns all users except current user
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(users);
+})
+
+module.exports = {registerUser, authUser, allUsers};
