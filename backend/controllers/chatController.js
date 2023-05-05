@@ -14,15 +14,15 @@ const accessChat = asyncHandler(async(req, res)=>{
  var isChat = await Chat.find({
   isGroupChat: false,
   $and: [
-    { users: { $elemMatch:{ $eq: req.user._id } } }, // chat has (current user) as user of this chat
-    { users: { $elemMatch:{ $eq: userId } } }, // chat has (params user) as user of this chat
+    { users: { $elemMatch: { $eq: req.user._id } } }, // chat has (current user) as user of this chat
+    { users: { $elemMatch: { $eq: userId } } }, // chat has (params user) as user of this chat
   ]
  })
  .populate('users', '-password') // get all the users of the chat
  .populate('latestMessage') // get the latest message of this chat
 
 // returns the array of the users
- isChat = User.populate(isChat, {
+ isChat = await User.populate(isChat, {
   path: 'latestMessage.sender', // go through the latestMessage of isChat and send the user id from which the User gives the data.
   select: 'name pic email' // only send the following data of the sender.
  })

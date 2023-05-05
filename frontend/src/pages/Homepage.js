@@ -1,10 +1,21 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './Homepage.css'
 import { Container, Box, Text, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import Login from '../components/Authentication/Login'
 import Signup from '../components/Authentication/Signup'
+import {useHistory} from "react-router-dom"
+import Animation from '../components/Animation'
 
 const Homepage = () => {
+
+  const history = useHistory()
+
+  useEffect(() => {
+   const details = JSON.parse(localStorage.getItem("userInfo"));
+   console.log(history)
+   if(details) history.push('/chats')
+  }, [history])
+
   return (
     <Container maxW="xl" centerContent>
       <Box
@@ -35,22 +46,7 @@ const Homepage = () => {
           </TabPanels>
         </Tabs>
       </Box>
-      <Container>
-        <div className = "area">
-          <ul className="circles">
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-          </ul>
-       </div>
-      </Container>
+      <Animation/>
     </Container>
   )
 }

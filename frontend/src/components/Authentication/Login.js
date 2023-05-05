@@ -20,7 +20,7 @@ const Login = () => {
       toast({
         title: 'Error',
         description: "Please fill all the details",
-        status: 'Warning',
+        status: 'warning',
         duration: 3000,
         isClosable: true,
       })
@@ -36,7 +36,7 @@ const Login = () => {
       };
       await axios
         .post(
-          `http://localhost:5000/api/user/login`,
+          `/api/user/login`,
           { email, password },
           config
         )
@@ -99,6 +99,7 @@ const Login = () => {
        width="100%"
        mt={15}
        onClick={submitDetails}
+       isLoading = {loading}
       >
         Login
       </Button>
