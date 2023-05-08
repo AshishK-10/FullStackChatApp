@@ -22,9 +22,11 @@ const Chatpage = () => {
   return (
     <div style= {{width: '100%'}}>
       {user && <SideDrawer user={user}/>}
-      <Box>
+      <Box
+      height="90%"
+      >
         {user && <MyChats/>}
-        {user && <ChatBox/>}
+        {/* {user && <ChatBox/>} */}
       </Box>
     </div>
   )

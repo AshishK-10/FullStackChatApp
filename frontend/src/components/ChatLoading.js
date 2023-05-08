@@ -9,6 +9,11 @@ export default function ChatLoading() {
       <Skeleton height="45px"></Skeleton>
       <Skeleton height="45px"></Skeleton>
       <Skeleton height="45px"></Skeleton>
+      <Skeleton height="45px"></Skeleton>
+      <Skeleton height="45px"></Skeleton>
+      <Skeleton height="45px"></Skeleton>
+      <Skeleton height="45px"></Skeleton>
+      <Skeleton height="45px"></Skeleton>
     </Stack>
   )
 }

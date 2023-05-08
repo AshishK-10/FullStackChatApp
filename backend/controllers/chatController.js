@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler') // handles all the async related errors in express
-const Chat = require('../models/chatModel') //chat model
+const Chat = require('../models/chatModel')
 const User = require('../models/userModel')
 
 const accessChat = asyncHandler(async(req, res)=>{

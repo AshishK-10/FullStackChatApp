@@ -107,6 +107,7 @@ const SideDrawer = ({user}) => {
           isClosable: true,
           position: "bottom-left",
           })
+          setLoadingChat(false)
         })
 
     } catch (error) {
@@ -117,6 +118,7 @@ const SideDrawer = ({user}) => {
           isClosable: true,
           position: "bottom-left",
         })
+        setLoadingChat(false)
     }
   }
 
