@@ -3,6 +3,7 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, u
 import { ViewOffIcon, ViewIcon } from '@chakra-ui/icons'
 import axios from 'axios'
 import {useHistory} from "react-router-dom"
+import { ChatState } from '../Context/ChatProvider'
 
 const Login = () => {
 
@@ -12,7 +13,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
   const history = useHistory()
-
+  const {fetchAgain, setFetchAgain}  = ChatState()
   const submitDetails = async ()=>{
     setLoading(true);
     if(!email || !password)
@@ -49,9 +50,9 @@ const Login = () => {
           duration: 2000,
           isClosable: true,
           })
-          setLoading(false);
-          history.push('/chats')
+          setFetchAgain(!fetchAgain)
         })
+        .then(res => history.push('/chats'))
         .catch( (error) => {
           toast({
           title: 'Login Failed',

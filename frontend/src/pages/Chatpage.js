@@ -8,25 +8,19 @@ import ChatBox from '../components/miscellaneous/ChatBox'
 import { useHistory } from 'react-router-dom'
 
 const Chatpage = () => {
-  const [user, setCurrUser] = useState('')
+  const {user} = ChatState()
   const history = useHistory();
-
-  useEffect(() => {
-    const details = JSON.parse(localStorage.getItem("userInfo"));
-    setCurrUser(details);
-
-    if(!details){
-       history.push('/')}
-  }, [history])
-
+  const [fetchAgain, setFetchAgain] = useState(false);
   return (
     <div style= {{width: '100%'}}>
       {user && <SideDrawer user={user}/>}
       <Box
       height="90%"
+      display="flex"
+      flexDir="row"
       >
-        {user && <MyChats/>}
-        {/* {user && <ChatBox/>} */}
+        {user && <MyChats fetchAgain = {fetchAgain}/>}
+        {user && <ChatBox fetchAgain = {fetchAgain} setFetchAgain = {setFetchAgain}/>}
       </Box>
     </div>
   )

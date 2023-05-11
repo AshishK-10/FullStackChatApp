@@ -20,9 +20,12 @@ const SideDrawer = ({user}) => {
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
-  const {selectedChat, setSelectedChat, chats, setChats} = ChatState();
+  const {selectedChat, setSelectedChat, chats, setChats, setUser } = ChatState();
 
   const logOut = ()=>{
+    setUser("")
+    setChats([])
+    setSelectedChat('');
     localStorage.removeItem("userInfo");
     history.push("/")
   }
