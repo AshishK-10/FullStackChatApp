@@ -6,7 +6,7 @@ import UserBadgeItem from '../UserAvatar/UserBadgeItem'
 import axios from 'axios'
 import UserListItem from '../UserAvatar/UserListItem'
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const {user, selectedChat, setSelectedChat} = ChatState();
@@ -19,8 +19,8 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
 
   const handleRemove = async(userToRemove)=>{
-
-    if(selectedChat.groupAdmin._id !== user._id)
+    // user can remove himself or need to be an admin to remove others.
+    if((user._id !== userToRemove._id) && (selectedChat.groupAdmin._id !== user._id))
     {
       toast({
         title: 'Only group admins can remove someone',
@@ -49,6 +49,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
           userToRemove._id === user._id ? setSelectedChat() : setSelectedChat(res.data);
           setSearchResult([])
           setFetchAgain(!fetchAgain)
+          fetchMessages();
           setLoading(false);
         })
       .catch( (error) => {
@@ -230,6 +231,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
         setLoading(false);
     }
   }
+
   return (
     <>
       <IconButton display={{base: "flex"}} icon={<ViewIcon/>} onClick={onOpen}/>

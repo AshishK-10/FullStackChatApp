@@ -16,6 +16,7 @@ const Chatpage = () => {
       {user && <SideDrawer user={user}/>}
       <Box
       height="90%"
+      maxHeight="90vh"
       display="flex"
       flexDir="row"
       >

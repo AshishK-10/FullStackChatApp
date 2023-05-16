@@ -24,4 +24,42 @@ app.use(notFound)
 app.use(errorHandler)
 
 const port = process.env.PORT || 5000;
-app.listen(5000, console.log(`server started on port ${port}`.yellow.bold))
+const server = app.listen(5000, console.log(`server started on port ${port}`.yellow.bold))
+
+const io = require('socket.io')(server, {
+  pingTimeout: 60000, // timeout time to save bandwidth
+  cors: {
+    origin: "http://localhost:3001",
+  }
+});
+
+io.on("connection", (socket) => {
+
+ socket.on('setup', (userData)=> { // initialization
+  socket.join(userData._id);
+  socket.emit('connected');
+ })
+
+ socket.on('join chat', (room) => { // joining a chat with room = selectedChat._id
+  socket.join(room);
+  console.log('user joined room', room);
+ });
+
+ socket.on('new message', (newMessageReceived)=> {  //receiving new messages
+  var chat = newMessageReceived.chat;
+  if(!chat.users) return console.log('chat.users is not defined');
+  chat.users.forEach(user => {
+    if(chat._id === newMessageReceived.sender._id) return;
+    socket.in(user._id).emit("messageReceived", newMessageReceived) // emit message to all the room having user._id
+  })
+ })
+
+//all the sockets in room should emit "typing" or "stop typing" when listed to this port
+ socket.on('typing', (room)=> socket.in(room).emit("typing"));
+ socket.on('stop typing', (room)=> socket.in(room).emit("stop typing"));
+
+ socket.off("setup", ()=>{
+  console.log("user disconnected");
+  socket.leave(userData._id)
+ })
+});
