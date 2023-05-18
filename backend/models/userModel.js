@@ -5,7 +5,11 @@ const userSchema = mongoose.Schema({
   name: {type: String, required: true},
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  pic: {type: String, default: process.env.DEFAULT_PROFILE_PIC}
+  pic: {type: String, default: process.env.DEFAULT_PROFILE_PIC},
+  notification: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message"
+    }],
 },
 {
   timestamps: true,

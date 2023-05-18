@@ -12,11 +12,12 @@ import io from 'socket.io-client'
 import Lottie from "react-lottie";
 import animationData from '../animations/typing.json'
 
+
 const ENDPOINT = 'http://localhost:5000';
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-  const {user, selectedChat, setSelectedChat} = ChatState();
+  const {user, selectedChat, setSelectedChat, notification, setNotification} = ChatState();
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
   const [newMessage, setNewMessage] = useState('');
@@ -24,6 +25,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false)
   const [typing, setTyping] = useState(false)
   const[isTyping, setIsTyping] = useState(false);
+
 
   const defaultOptions = {
     loop: true,
@@ -138,7 +140,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }, timerLength);
   }
 
- useEffect(()=>{
+  useEffect(()=>{
    socket = io(ENDPOINT)
    socket.emit("setup", user)
    socket.on("connected", () => setSocketConnected(true))
@@ -154,12 +156,55 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
    socket.on("messageReceived", (newMessageReceived) => {
     if(!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id){
-      // give notification
+      if(!notification?.includes(newMessageReceived)){
+        setNotification([newMessageReceived, ...notification]);
+      }
     }else{
       setMessages([...messages, newMessageReceived]);
     }
    })
   })
+
+  const saveNotification = async ()=>{
+
+    try{
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      await axios
+      .put(
+          `/api/notification`,{messages: notification},
+          config
+        )
+      .then((res) => {
+        setFetchAgain(!fetchAgain);
+        })
+      .catch( (error) => {
+        toast({
+          title: `${error.message}`,
+          status: 'warning',
+          duration: 2000,
+          isClosable: true,
+          position: "bottom-left",
+        })
+      })
+    }catch(error){
+      toast({
+        title: 'Something went wrong',
+        status: 'warning',
+        duration: 2000,
+        isClosable: true,
+        position: "bottom-left",
+      })
+    }
+  }
+
+  useEffect(() => {
+    saveNotification();
+  }, [notification])
 
   return (
     <>

@@ -56,4 +56,30 @@ const allMessages = asyncHandler(async (req, res)=>{
 
 });
 
-module.exports = {sendMessage, allMessages}
+
+const updateNotification = asyncHandler(async (req, res)=> {
+
+  const {messages} = req.body
+  try {
+    const updatedNotification = await User.findByIdAndUpdate(req.user._id, {
+      notification: messages
+    },{new: true})
+    res.status(200).send(updatedNotification);
+  } catch (error) {
+    res.status(404);
+    throw new Error(error.message);
+  }
+})
+
+
+const getNotify = asyncHandler(async(req, res) => {
+  try {
+    const userNotifications = await User.findById(req.user._id).populate('notification');
+    res.json(userNotifications.notification);
+  } catch (error) {
+    res.status(404);
+    throw new Error(error.message);
+  }
+})
+
+module.exports = {sendMessage, allMessages, updateNotification, getNotify}

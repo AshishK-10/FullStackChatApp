@@ -7,6 +7,7 @@ const colors = require('colors')
 const userRoutes = require('./routes/userRoutes')
 const chatRoutes = require('./routes/chatRoutes')
 const messageRoutes = require('./routes/messageRoutes')
+const notificationRoutes = require('./routes/notificationRoutes')
 const {notFound, errorHandler} = require('./middleware/errorMiddleware')
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json()); // to accept the json data
 app.use('/api/user', userRoutes) // /api/user routes
 app.use('/api/chat', chatRoutes) // api/chat routes
 app.use('/api/message', messageRoutes) // api/message routes
+app.use('/api/notification', notificationRoutes) // api/notification routes
 app.use(notFound)
 app.use(errorHandler)
 
